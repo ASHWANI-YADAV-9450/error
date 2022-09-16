@@ -16,12 +16,11 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
   const { name, email, password, confpassword } = req.body;
 
-  let userData = new User({
-    name:name,
-    email:email,
-    password:password,
-    confpassword:confpassword,
-    
+  const user = await User.create({
+    name,
+    email,
+    password,
+    confpassword,
     avatar: {
       public_id: "this is a sampleid",
     // myCloud.public_id,
@@ -29,15 +28,10 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     // myCloud.secure_url,
     },
   });
-  if(password===confpassword) {
-    console.log(password,confpassword)
-    await userData.save().then((result)=>{res.send(result)}).catch((err)=>{res.send(err)})
-  }
-  
 
- 
 
-//   sendToken(user, 201, res);
+
+  sendToken(user, 201, res);
 // });
 
 // Login User
